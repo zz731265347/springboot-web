@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zz.web.dao.PeopleDao">
+
+    <resultMap id="BaseResultMap" type="com.zz.web.entity.People">
+        <result column="id" jdbcType="INTEGER" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+    </resultMap>
+
+    <select id="getPeopleByID" resultType="com.zz.web.entity.People">
+        select id,name from People where id = #{id}
+    </select>
+
+</mapper>
