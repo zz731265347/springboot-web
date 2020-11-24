@@ -3,14 +3,12 @@ package com.zz.web.commonutil;
 import com.alibaba.druid.util.StringUtils;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
 import com.zz.web.enums.TokenState;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -76,7 +74,7 @@ public class JWTUtils {
      * @param token
      * @return
      */
-    public static Map<String, Object> checkSign(String token ,String userid) {
+    public static Map<String, Object> checkSign(String token  ) {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         try {
             Algorithm algorithm = Algorithm.HMAC256(SECRET);
@@ -88,31 +86,31 @@ public class JWTUtils {
                 // token 校验失败, 抛出Token验证非法异
                 throw   new JWTVerificationException(" JWT 验证不通过");
             }
-             String tuserId  =  jwt.getClaims().get("uid").asString();;
-            if(!userid.equals(tuserId) ){
-                throw   new JWTVerificationException("uid 不匹配");
-            }
+             String tuserId  =  jwt.getClaims().get("uid").asString();
+
             String roleId  = rolClaim.asString();
             resultMap.put("state", TokenState.VALID);
             resultMap.put("userId",tuserId);
             resultMap.put("roleID",roleId);
             return resultMap;
         } catch (JWTVerificationException exception) {
-            log.info("token 无效，请重新获取");
+            log.error("token 无效，请重新获取");
             resultMap.put("state", TokenState.INVALID);
             return resultMap;
         }catch (NullPointerException exception) {
-            log.info("token 获取错误");
+            log.error("token 获取错误");
             resultMap.put("state", TokenState.INVALID);
             return resultMap;
         }
     }
 
+
+
     public static void main(String[] args) {
         String token  = JWTUtils.createToken("125801", "2");
         System.out.println("["+ token +"]");
         String mytoken = "WQiOiIxMjU4MDEiLCJleHAiOjE2MDYxMjAxMzksInJvbCI6IjIifQ.c7wy5GUpdzxBkCjGZe2LDfBC0cMFYY5AJa336IaOT6A";
-        Map tokenMap = JWTUtils.checkSign(mytoken,"125801");
+        Map tokenMap = JWTUtils.checkSign(mytoken);
         System.out.println(tokenMap.get("state"));
     }
 

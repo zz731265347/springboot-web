@@ -43,8 +43,6 @@ public class CredentialsMatcher extends SimpleCredentialsMatcher {
         //获得数据库中的密码
         String dbPassword = (String) info.getCredentials();
 
-
-
         //进行密码的比对
         return this.equals(inPassword, dbPassword);
     }

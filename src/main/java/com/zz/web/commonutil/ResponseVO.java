@@ -14,9 +14,10 @@ public class ResponseVO   implements Serializable {
     private String msg ;
     private  Object data ;
 
+    private String token ;
 
-    public   ResponseVO success(Object object){
 
+    public  static ResponseVO success(Object object){
         ResponseVO result = new ResponseVO();
         result.setCode("200");
         result.setMsg("成功");
@@ -25,9 +26,15 @@ public class ResponseVO   implements Serializable {
 
     }
 
+    public  static ResponseVO success(){
+        ResponseVO result = new ResponseVO();
+        result.setCode("200");
+        result.setMsg("成功");
+        return  result;
 
+    }
 
-    public   ResponseVO fail(String msg){
+    public static  ResponseVO fail(String msg){
         ResponseVO result = new ResponseVO();
         result.setCode("400");
         result.setMsg(msg);
@@ -35,7 +42,7 @@ public class ResponseVO   implements Serializable {
 
     }
 
-    public  ResponseVO error500(){
+    public  static ResponseVO error500(){
         ResponseVO result = new ResponseVO();
         result.setCode("500");
         result.setMsg("服务器内部错误，请稍后重试");
