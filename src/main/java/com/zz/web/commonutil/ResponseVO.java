@@ -51,7 +51,12 @@ public class ResponseVO   implements Serializable {
     }
 
 
+    public   ResponseVO(String code,String msg){
 
+            this.code =code;
+            this.msg = msg;
+
+    }
 
 
 

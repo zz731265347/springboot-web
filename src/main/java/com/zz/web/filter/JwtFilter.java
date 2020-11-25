@@ -7,8 +7,7 @@ import org.apache.shiro.web.filter.AccessControlFilter;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+
 
 /**
  * @author Z sir
@@ -55,8 +54,9 @@ public class JwtFilter extends AccessControlFilter {
             //也就是subject.login(token)
         } catch (Exception e) {
             log.error("登陆失败 {}",e.toString());
-            onLoginFail(servletResponse);
-            //调用下面的方法向客户端返回错误信息
+         //   onLoginFail(servletResponse);
+            //调用下面的方法 重定向
+            super.redirectToLogin(servletRequest, servletResponse);
             return false;
         }
 
@@ -64,10 +64,5 @@ public class JwtFilter extends AccessControlFilter {
         //执行方法中没有抛出异常就表示登录成功
     }
 
-    //登录失败时默认返回 401 状态码
-    private void onLoginFail(ServletResponse response) throws IOException {
-        HttpServletResponse httpResponse = (HttpServletResponse) response;
-        httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        httpResponse.getWriter().write("login error");
-    }
+
 }

@@ -99,11 +99,6 @@ public class ShiroConfig {
 
 
 
-       /* CustomerAuthrizer customModularRealmAuthorizer = new CustomerAuthrizer();
-        customModularRealmAuthorizer.setRealms(realms);
-        securityManager.setAuthorizer(customModularRealmAuthorizer);*/
-
-
         return securityManager;
     }
 
@@ -140,15 +135,16 @@ public class ShiroConfig {
         map.put("/logout", "logout");
 
         map.put("/login", "anon");
-        map.put("/system/**", "jwt,roles[admin]");
+        map.put("/code/**", "anon");
+        map.put("/system/**", "jwt,roles[root]");
         //对所有用户认证
         map.put("/**", "jwt");
         //登录
-        shiroFilterFactoryBean.setLoginUrl("/login");
+        shiroFilterFactoryBean.setLoginUrl("/code/402");
         //首页
-        shiroFilterFactoryBean.setSuccessUrl("/index");
+        //shiroFilterFactoryBean.setSuccessUrl("/index");
         //错误页面，认证不通过跳转
-        shiroFilterFactoryBean.setUnauthorizedUrl("/error");
+        shiroFilterFactoryBean.setUnauthorizedUrl("/code/401");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
         return shiroFilterFactoryBean;
     }
